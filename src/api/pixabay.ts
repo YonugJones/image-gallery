@@ -1,23 +1,6 @@
+import type { PixabayImage, PixabayResponse } from '../types'
+
 const BASE_URL = 'https://pixabay.com/api'
-
-// Define the attributes of each image
-type PixabayImage = {
-  id: number
-  webformatURL: string
-  largeImageURL: string
-  user: string
-  views: number
-  downloads: number
-  likes: number
-  tags: string
-}
-
-// Define the attributes of the API response
-type PixabayResponse = {
-  total: number
-  totalHits: number
-  hits: PixabayImage[]
-}
 
 export async function searchPixabayImages(
   query: string
