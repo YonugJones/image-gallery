@@ -1,5 +1,6 @@
 const BASE_URL = 'https://pixabay.com/api'
 
+// Define the attributes of each image
 type PixabayImage = {
   id: number
   webformatURL: string
@@ -11,6 +12,7 @@ type PixabayImage = {
   tags: string
 }
 
+// Define the attributes of the API response
 type PixabayResponse = {
   total: number
   totalHits: number
