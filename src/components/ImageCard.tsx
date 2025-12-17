@@ -1,36 +1,48 @@
-export default function ImageCard() {
+import type { PixabayImage } from '../types'
+
+type ImageCardProps = {
+  image: PixabayImage
+}
+
+export default function ImageCard({ image }: ImageCardProps) {
+  const tags = image.tags.split(',').map((tag) => tag.trim())
+
   return (
     <div className='max-w-sm rounded overflow-hidden shadow-lg'>
       <img
-        src='https://placehold.co/50x100'
+        src={image.webformatURL}
+        alt={image.tags}
         className='h-48 w-full object-cover'
+        loading='lazy'
       />
+
       <div className='px-6 py-4'>
-        <div className='font-bold text-purple-500 text-xl mb-2'>
-          Photo by Jon Doe
+        <div className='mb-2 text-xl font-bold text-purple-500'>
+          Photo by ${image.user}
         </div>
+
         <ul>
           <li>
-            <strong>Views: </strong>4000
+            <strong>Views: </strong>
+            {image.views}
           </li>
           <li>
-            <strong>Downloads: </strong>300
+            <strong>Downloads: </strong>
+            {image.downloads}
           </li>
           <li>
-            <strong>Likes: </strong>400
+            <strong>Likes: </strong>
+            {image.likes}
           </li>
         </ul>
       </div>
+
       <div className='px-6 py-4'>
-        <span className='inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2'>
-          #tag1
-        </span>
-        <span className='inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2'>
-          #tag2
-        </span>
-        <span className='inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2'>
-          #tag3
-        </span>
+        {tags.map((t) => (
+          <span className='mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700'>
+            #{t}
+          </span>
+        ))}
       </div>
     </div>
   )
