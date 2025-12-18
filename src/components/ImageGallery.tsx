@@ -1,12 +1,14 @@
 // Image state lives here and loads images
 
 import { useState } from 'react'
-import usePixabayImages from '../hooks/usePixabayImages'
+import { useDebounce } from '../hooks/useDebounce'
+import { usePixabayImages } from '../hooks/usePixabayImages'
 import ImageCard from './ImageCard'
 
 export default function ImageGallery() {
   const [query, setQuery] = useState('cats')
-  const { images, loading, error } = usePixabayImages(query)
+  const debouncedQuery = useDebounce(query, 300)
+  const { images, loading, error } = usePixabayImages(debouncedQuery)
 
   return (
     <section className='p-4'>
