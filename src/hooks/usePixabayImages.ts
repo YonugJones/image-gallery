@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { searchPixabayImages } from '../api/pixabay'
 import type { PixabayImage } from '../types'
 
-export default function usePixabayImages(query: string) {
+export function usePixabayImages(query: string) {
   const [images, setImages] = useState<PixabayImage[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
