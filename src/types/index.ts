@@ -16,3 +16,9 @@ export type PixabayResponse = {
   totalHits: number
   hits: PixabayImage[]
 }
+
+// Define the attributes of the search params
+export type SearchOptions = {
+  page?: number
+  perPage?: number
+}
