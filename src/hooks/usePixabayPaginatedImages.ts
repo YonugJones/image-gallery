@@ -17,6 +17,8 @@ export function usePixabayPaginatedImages(query: string, perPage = 24) {
     async function run() {
       const trimmed = query.trim()
 
+      let pageToFetch = page
+
       // If query changes since last run, reset pagination *once*
       const queryChanged = prevQueryRef.current !== query
       if (queryChanged) {
@@ -25,11 +27,11 @@ export function usePixabayPaginatedImages(query: string, perPage = 24) {
         setTotalHits(0)
         setError(null)
         setPage(1)
-        // do not fetch with a stale value in the same run
-        return
+        pageToFetch = 1
       }
 
       if (!trimmed) {
+        prevQueryRef.current = query
         setImages([])
         setTotalHits(0)
         setError(null)
@@ -42,11 +44,16 @@ export function usePixabayPaginatedImages(query: string, perPage = 24) {
       setError(null)
 
       try {
-        const data = await searchPixabayImages(query, { page, perPage })
+        const data = await searchPixabayImages(query, {
+          page: pageToFetch,
+          perPage,
+        })
         if (cancelled) return
 
         setTotalHits(data.totalHits)
-        setImages((prev) => (page === 1 ? data.hits : [...prev, ...data.hits]))
+        setImages((prev) =>
+          pageToFetch === 1 ? data.hits : [...prev, ...data.hits]
+        )
       } catch (e) {
         const message = e instanceof Error ? e.message : 'Unknown error'
         if (!cancelled) setError(message)
