@@ -38,8 +38,11 @@ export default function ImageCard({ image }: ImageCardProps) {
       </div>
 
       <div className='px-6 py-4'>
-        {tags.map((t) => (
-          <span className='mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700'>
+        {tags.map((t, i) => (
+          <span
+            key={`${image.id}-${t}-${i}`}
+            className='mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700'
+          >
             #{t}
           </span>
         ))}
