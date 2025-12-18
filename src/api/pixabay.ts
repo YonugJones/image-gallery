@@ -2,7 +2,7 @@ import type { PixabayResponse, SearchOptions } from '../types'
 
 const BASE_URL = 'https://pixabay.com/api'
 
-export async function searchPixaBayImages(
+export async function searchPixabayImages(
   query: string,
   options: SearchOptions = {}
 ): Promise<PixabayResponse> {
