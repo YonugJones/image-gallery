@@ -17,8 +17,8 @@ export default function ImageCard({ image }: ImageCardProps) {
       />
 
       <div className='px-6 py-4'>
-        <div className='mb-2 text-xl font-bold text-purple-500'>
-          Photo by ${image.user}
+        <div className='mb-2 text-xs font-bold text-slate-600'>
+          Photo by {image.user}
         </div>
 
         <ul>
