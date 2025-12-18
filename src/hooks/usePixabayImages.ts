@@ -17,9 +17,11 @@ export function usePixabayImages(query: string) {
       // If query is empty/whitespace, treat it as "no search":
       // clear results and ensure we're not showing loading/error.
       if (!query.trim()) {
-        setImages([])
-        setError(null)
-        setLoading(false)
+        if (!cancelled) {
+          setImages([])
+          setError(null)
+          setLoading(false)
+        }
         return
       }
 
@@ -30,10 +32,10 @@ export function usePixabayImages(query: string) {
       try {
         // Kick off the fetch. This may resolve after the component unmounts
         // or after query changes (effect re-runs).
-        const hits = await searchPixabayImages(query)
+        const res = await searchPixabayImages(query)
 
         // Only update state if this effect run is still active.
-        if (!cancelled) setImages(hits)
+        if (!cancelled) setImages(res.hits)
       } catch (e) {
         const message = e instanceof Error ? e.message : 'Unknown error'
         // only update state if this effect run is still active
