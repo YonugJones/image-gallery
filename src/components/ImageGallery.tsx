@@ -68,16 +68,3 @@ export default function ImageGallery() {
     </section>
   )
 }
-
-/**
-        {images.map((image) => (
-          <button
-            key={image.id}
-            type='button'
-            className='text-left w-full'
-            onClick={() => setSelectedImage(image)}
-          >
-            <ImageCard image={image} />
-          </button>
-        ))}
- */
