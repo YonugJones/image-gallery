@@ -24,61 +24,68 @@ export default function ImageModal({ image, onClose }: ImageModalProps) {
 
   return (
     <div
-      className='fixed inset-0 z-50 flex items-center justify-center p-4'
+      className='fixed inset-0 z-50 overflow-y-auto p-4'
       role='dialog'
       aria-modal='true'
       aria-label='Image preview'
-      onClick={onClose}
+      onClick={onClose} // clicking the backdrop area closes
     >
       {/* Backdrop */}
-      <div className='absolute inset-0 bg-black/60' />
+      <div className='fixed inset-0 bg-black/60' />
 
-      {/* Modal content */}
-      <div
-        className='relative z-10 w-full max-w-3xl overflow-hidden rounded-lg bg-white shadow-lg'
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className='flex items-center justify-between border-b px-4 py-3'>
-          <div className='text-sm font-semibold text-slate-700'>
-            Photo by {image.user}
+      {/* Centering wrapper */}
+      <div className='relative mx-auto flex min-h-full items-start justify-center'>
+        {/* Modal content */}
+        <div
+          className='relative z-10 w-full max-w-3xl max-h-[90vh] overflow-hidden rounded-lg bg-white shadow-lg flex flex-col'
+          onClick={(e) => e.stopPropagation()} // clicking inside does not close
+        >
+          {/* Header */}
+          <div className='flex items-center justify-between border-b px-4 py-3 shrink-0'>
+            <div className='text-sm font-semibold text-slate-700'>
+              Photo by {image.user}
+            </div>
+            <button
+              type='button'
+              onClick={onClose}
+              aria-label='Close modal'
+              className='rounded px-3 py-1 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:cursor-pointer'
+            >
+              Close
+            </button>
           </div>
-          <button
-            type='button'
-            onClick={onClose}
-            aria-label='Close modal'
-            className='rounded px-3 py-1 text-sm font-semibold text-slate-700 hover:bg-slate-100'
-          >
-            Close
-          </button>
-        </div>
 
-        <img
-          src={image.largeImageURL || image.webformatURL}
-          alt={image.tags}
-          className='max-h-[70vh] w-full object-contain bg-black'
-        />
+          {/* Image */}
+          <img
+            src={image.largeImageURL || image.webformatURL}
+            alt={image.tags}
+            className='w-full bg-black object-contain max-h-[55vh] shrink-0'
+          />
 
-        <div className='space-y-3 p-4'>
-          <ul className='text-sm text-slate-700'>
-            <li>
-              <strong>Views:</strong> {image.views}
-            </li>
-            <li>
-              <strong>Downloads:</strong> {image.downloads}
-            </li>
-            <li>
-              <strong>Likes:</strong> {image.likes}
-            </li>
-          </ul>
-          <div className='flex flex-wrap gap-2'>
-            {tags.map((t, i) => (
-              <span
-                key={`${image.id}-${t}-${i}`}
-                className='inline-block rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700'
-              >
-                #{t}
-              </span>
-            ))}
+          {/* Details (scrolls if needed) */}
+          <div className='space-y-3 p-4 overflow-y-auto'>
+            <ul className='text-sm text-slate-700'>
+              <li>
+                <strong>Views:</strong> {image.views}
+              </li>
+              <li>
+                <strong>Downloads:</strong> {image.downloads}
+              </li>
+              <li>
+                <strong>Likes:</strong> {image.likes}
+              </li>
+            </ul>
+
+            <div className='flex flex-wrap gap-2'>
+              {tags.map((t, i) => (
+                <span
+                  key={`${image.id}-${t}-${i}`}
+                  className='inline-block rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700'
+                >
+                  #{t}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>

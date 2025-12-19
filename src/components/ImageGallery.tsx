@@ -3,10 +3,13 @@
 import { useState } from 'react'
 import { useDebounce } from '../hooks/useDebounce'
 import { usePixabayPaginatedImages } from '../hooks/usePixabayPaginatedImages'
+import type { PixabayImage } from '../types'
 import ImageCard from './ImageCard'
+import ImageModal from './ImageModal'
 
 export default function ImageGallery() {
   const [query, setQuery] = useState('cats')
+  const [selectedImage, setSelectedImage] = useState<PixabayImage | null>(null)
   const debouncedQuery = useDebounce(query, 300)
   const { images, loading, error, hasMore, loadMore } =
     usePixabayPaginatedImages(debouncedQuery, 24)
@@ -25,7 +28,14 @@ export default function ImageGallery() {
 
       <div className='grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
         {images.map((image) => (
-          <ImageCard key={image.id} image={image} />
+          <button
+            key={image.id}
+            type='button'
+            className='text-left w-full'
+            onClick={() => setSelectedImage(image)}
+          >
+            <ImageCard image={image} />
+          </button>
         ))}
       </div>
 
@@ -39,6 +49,13 @@ export default function ImageGallery() {
           {loading ? 'Loading' : hasMore ? 'Load more' : 'No more results'}
         </button>
       </div>
+
+      {selectedImage && (
+        <ImageModal
+          image={selectedImage}
+          onClose={() => setSelectedImage(null)}
+        />
+      )}
     </section>
   )
 }
