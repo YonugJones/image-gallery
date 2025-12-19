@@ -8,7 +8,7 @@ export default function ImageCard({ image }: ImageCardProps) {
   const tags = image.tags.split(',').map((tag) => tag.trim())
 
   return (
-    <div className='max-w-sm rounded overflow-hidden shadow-lg'>
+    <div className='max-w-sm rounded overflow-hidden shadow-lg hover:cursor-pointer'>
       <img
         src={image.webformatURL}
         alt={image.tags}
